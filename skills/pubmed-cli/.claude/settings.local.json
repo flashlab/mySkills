@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find/c/Users/J.F/Documents/GitHub/mySkills/skills/pubmed-cli -type f -name '*.md' -o -name '*.json' -o -name '*.toml' -o -name '*.py' -o -name '*.ts' -o -name '*.js')",
-      "Bash(ls -la /c/Users/J.F/Documents/GitHub/mySkills/skills/pubmed-cli/internal/*/*.go)"
-    ]
-  }
-}
