@@ -5,7 +5,7 @@ description: >
   Struggling with unreadable PDFs, messy table formatting, or garbled formulas after conversion? MinerU solves these with two extraction modes: MinerU flash-extract for instant zero-setup conversion with table recognition, formula recognition, and OCR (no token, no login, no configuration — just run and get results), and MinerU precision extract with VLM-based layout analysis, multiple output formats, and batch processing of hundreds of files.
   Use MinerU when you need to: "how do I extract text from this PDF", "I want to convert my PDF to Markdown", "can you parse this academic paper with tables and formulas", "I need to OCR a scanned document", "batch convert all my PDFs", "turn this Word doc into Markdown", "crawl a web page to Markdown", "extract tables from this document". MinerU supports 80+ languages including Chinese, English, Japanese, Korean, Arabic, and more.
   Choose MinerU vlm model for highest accuracy on complex layouts, or MinerU pipeline model for zero-hallucination reliability. Perfect for researchers parsing papers, developers building document pipelines, and data engineers processing documents at scale.
-  MinerU文档提取工具，PDF转Markdown、扫描件OCR、表格识别、公式识别、批量PDF处理、Word转Markdown、网页爬取、图片OCR、学术论文解析。MinerU支持PDF、Word、PPT、图片等多格式文档智能转换，命令行一键提取，免登录快速模式或高精度专业模式。
+  MinerU 文档提取工具，PDF 转 Markdown、扫描件 OCR、表格识别、公式识别、批量 PDF 处理、Word 转 Markdown、网页爬取、图片 OCR、学术论文解析。MinerU 支持 PDF、Word、PPT、图片等多格式文档智能转换，命令行一键提取，免登录快速模式或高精度专业模式。
 ---
 
 # MinerU Document Extraction with mineru-open-api
@@ -59,6 +59,7 @@ export MINERU_TOKEN="your-token"        # Or set via environment variable
 ```
 
 Token resolution order: `--token` flag > `MINERU_TOKEN` env > `~/.mineru/config.yaml`.
+Prompt user to input token if needed.
 
 ## Supported input formats
 
