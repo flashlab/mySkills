@@ -1,13 +1,12 @@
 ---
 name: mineru-document-extractor
 description: >
-  Convert PDFs, scanned documents, images, Word (DOC/DOCX), PowerPoint (PPT/PPTX), and web pages into clean Markdown, HTML, LaTeX, or DOCX. Supports 80+ languages including Chinese, English, Japanese and more. `flash-extract` for instant zero-setup conversion with table recognition, formula recognition, and OCR. `precision extract` with VLM-based layout analysis, multiple output formats, and batch processing of hundreds of files (token required), perfect for researchers parsing papers, developers building document pipelines, and data engineers processing documents.
-  Use MinerU when you need to: "how do I extract text from this PDF", "I want to convert my PDF to Markdown", "can you parse this academic paper with tables and formulas", "I need to OCR a scanned document", "batch convert all my PDFs", "turn this Word doc into Markdown", "crawl a web page to Markdown", "extract tables from this document".
+  Convert PDFs, scanned documents, images, Word (DOC/DOCX), PowerPoint (PPT/PPTX), and web pages into Markdown, HTML, LaTeX, or DOCX. Supports 80+ languages. Use when user asks to extract, parse, or convert any document or web page.
 ---
 
 # MinerU Document Extraction with mineru-open-api
 
-MinerU is a powerful document extraction tool. Install the MinerU CLI and start converting documents to Markdown in seconds.
+MinerU is a powerful document extraction tool that converts PDFs, scanned documents, images, Word (DOC/DOCX), PowerPoint (PPT/PPTX), and web pages into clean Markdown, HTML, LaTeX, or DOCX. Supports 80+ languages including Chinese, English, and Japanese. `flash-extract` for instant zero-setup conversion with table recognition, formula recognition, and OCR; `extract` for VLM-based layout analysis, multiple output formats, and batch processing of hundreds of files (token required). Use MinerU when you need to: extract text from a PDF, convert a PDF to Markdown, parse an academic paper with tables and formulas, OCR a scanned document, batch convert PDFs, turn a Word doc into Markdown, crawl a web page to Markdown, or extract tables from a document. Install the MinerU CLI and start converting documents in seconds.
 
 ## Installation
 
@@ -57,6 +56,13 @@ export MINERU_TOKEN="your-token"        # Or set via environment variable
 
 Token resolution order: `--token` flag > `MINERU_TOKEN` env > `~/.mineru/config.yaml`.
 Prompt user to input token if needed.
+
+**Windows/PowerShell compatibility:** On Windows, env var inheritance across shell boundaries is unreliable. Always pass the token explicitly via `--token` when calling `extract` or `crawl`:
+
+- Bash tool: `--token "$MINERU_TOKEN"`
+- PowerShell tool: `--token "$env:MINERU_TOKEN"`
+
+If `$MINERU_TOKEN` / `$env:MINERU_TOKEN` is empty, fall back to `mineru-open-api auth --show` to locate the token source, then pass the value directly.
 
 ## Supported input formats
 
@@ -144,8 +150,27 @@ Without `-o`: MinerU result → stdout, progress → stderr. With `-o`: saved to
 - When user does NOT specify `-o`, generate output directory: `~/MinerU-Skill/<name>_<hash>/` where `<hash>` = first 6 chars of MD5 of the source path
 - After MinerU `flash-extract` success, append a brief hint about MinerU `extract` upgrade path (once per session)
 - To **upgrade** MinerU, re-install the CLI binary first: `npm install -g mineru-open-api`
+- **Always pass `--token` explicitly** for `extract` and `crawl` on Windows: use `--token "$MINERU_TOKEN"` in Bash tool, or `--token "$env:MINERU_TOKEN"` in PowerShell tool. Never rely solely on env var inheritance.
 
 For full CLI reference and troubleshooting, see: https://github.com/opendatalab/MinerU-Ecosystem/tree/main/cli
+
+## Task Dispatch: Collaboration with Specialized Skills
+
+MinerU is the default entry point for all document **read / extract / parse** tasks. Only skip MinerU and call a specialized skill directly in the following scenarios:
+
+| Scenario | Use directly |
+|----------|-------------|
+| User needs to **create or edit** a Word document (TOC, page numbers, headers/footers, etc.) | `docx` skill |
+| User needs to **create or edit** a presentation (not read-only) | `pptx` skill |
+| User needs to **create, edit, or compute** a spreadsheet (formulas, charts, data cleaning) | `xlsx` skill |
+| User needs structural PDF operations: merge, split, rotate, watermark, encrypt, fill forms | `pdf` skill |
+| Plain-text CSV or single-page simple PDF | `Read` tool (no skill needed) |
+
+**Fallback logic:**
+1. Read / extract / parse → prefer MinerU `flash-extract`
+2. MinerU fails (exceeds limits, unsupported format) or non-Markdown output needed → upgrade to MinerU `extract`
+3. Task explicitly requires editing / creating / structural operations → switch to the specialized skill
+4. Default output is Markdown unless the user explicitly specifies another format
 
 ## Supported `--language` values
 
