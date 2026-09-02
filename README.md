@@ -30,6 +30,9 @@ Humanizer-zh 是一个用于去除文本中 AI 生成痕迹的工具，帮助你
 
 pubmed 搜索
 
+### 7. fertil-lit-digest
+微信公众号（生殖近期看点）写作流程
+
 
 ## Manage skills by Git
 
